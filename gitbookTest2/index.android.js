@@ -4,22 +4,28 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput
+  TextInput,
+  TouchableOpacity
 } from 'react-native';
 
-class CustomText extends Component {
-  render() {
-    return (
-      <Text>{this.props.text}</Text>
-    )
-  }
-}
+console.log('check')
 
 
 class gitbookTest2 extends Component {
   componentWillMount() {
     this.setState({
       inputText: '',
+      todos: [],
+    })
+  }
+
+  addTodo() {
+    let todoItem = this.state.inputText
+    let todos = this.state.todos
+    todos.push(todoItem)
+    this.setState({
+      inputText: '',
+      todos: todos,
     })
   }
 
@@ -29,12 +35,24 @@ class gitbookTest2 extends Component {
         <TextInput
           style={{height: 40,borderColor: 'gray', borderWidth: 1}}
           onChangeText={(text) => {
-            console.log(text)
             this.setState({inputText: text})
           }}
           value={this.state.inputText}
           />
-        <CustomText text={this.state.inputText}/>
+        <TouchableOpacity onPress={this.addTodo.bind(this)}>
+          <Text>
+            add Todo
+          </Text>
+        </TouchableOpacity>
+        {
+          this.state.todos.map((todoItem, index)=> {
+            return (
+              <Text key={index}>
+                {todoItem}
+              </Text>
+            )
+          })
+        }
       </View>
     );
   }
@@ -46,16 +64,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
 
