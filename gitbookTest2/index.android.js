@@ -1,31 +1,40 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  TextInput
 } from 'react-native';
 
-export default class gitbookTest2 extends Component {
+class CustomText extends Component {
+  render() {
+    return (
+      <Text>{this.props.text}</Text>
+    )
+  }
+}
+
+
+class gitbookTest2 extends Component {
+  componentWillMount() {
+    this.setState({
+      inputText: '',
+    })
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
+        <TextInput
+          style={{height: 40,borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(text) => {
+            console.log(text)
+            this.setState({inputText: text})
+          }}
+          value={this.state.inputText}
+          />
+        <CustomText text={this.state.inputText}/>
       </View>
     );
   }
