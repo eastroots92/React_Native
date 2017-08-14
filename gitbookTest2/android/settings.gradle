@@ -1,0 +1,3 @@
+rootProject.name = 'gitbookTest2'
+
+include ':app'
