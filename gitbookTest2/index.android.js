@@ -11,6 +11,44 @@ import {
 console.log('check')
 
 
+class TodoItem extends Component {
+  completeTodo(index) {
+    let todos = this.state.todos
+    todos[index].complete = !todos[index].complete
+    this.setState({
+      todos: todos,
+    })
+  }
+
+  deleteTodo (index) {
+    let todos = this.state.todos
+    todos.splice(index, 1)
+    this.setState({
+      todos: todos,
+    })
+  }
+
+
+  render() {
+    let todoItem = this.props.item
+    console.log(this.props)
+    let index = this.props.index
+    return(
+      <View style={{flexDirection: 'row'}}>
+        <Text style={todoItem.complete ? {textDecorationLine: 'line-through'} : {textDecorationLine: 'none'}}>
+          {todoItem.context}
+        </Text>
+        <TouchableOpacity onPress={this.completeTodo.bind(this.props.todoApp, index)}>
+          <Text>{todoItem.complete ? "---complete" : "---incomplete" }</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.deleteTodo.bind(this.props.todoApp, index)}>
+          <Text>     delete </Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+}
+
 class gitbookTest2 extends Component {
   componentWillMount() {
     this.setState({
@@ -19,15 +57,18 @@ class gitbookTest2 extends Component {
     })
   }
 
-  addTodo() {
-    let todoItem = this.state.inputText
-    let todos = this.state.todos
-    todos.push(todoItem)
-    this.setState({
-      inputText: '',
-      todos: todos,
-    })
-  }
+    addTodo() {
+      let todoItem = {
+        context: this.state.inputText,
+        complete: false
+      }
+      let todos = this.state.todos
+      todos.push(todoItem)
+      this.setState({
+        inputText: '',
+        todos: todos,
+      })
+    }
 
   render() {
     return (
@@ -46,10 +87,10 @@ class gitbookTest2 extends Component {
         </TouchableOpacity>
         {
           this.state.todos.map((todoItem, index)=> {
+            console.log(todoItem)
+            console.log(index)
             return (
-              <Text key={index}>
-                {todoItem}
-              </Text>
+              <TodoItem item={todoItem} key={index} index={index} todoApp={this}/>
             )
           })
         }
